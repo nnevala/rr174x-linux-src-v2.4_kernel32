@@ -259,11 +259,7 @@ void refresh_sd_flags(PVBUS_EXT vbus_ext)
 				for (minor=0; minor<=240; minor+=16) {
 					struct block_device *bdev = bdget(MKDEV(major[i], minor));
 					if (bdev &&
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,28)
-						blkdev_get(bdev, FMODE_READ)
-#else 
 						blkdev_get(bdev, FMODE_READ, 0 __BDEV_RAW)
-#endif
 						==0) {
 						if (bdev->bd_disk && bdev->bd_disk->driverfs_dev==&SDptr->sdev_gendev) {
 							if (vbus_ext->sd_flags[id] & SD_FLAG_REVALIDATE) {

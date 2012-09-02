@@ -8,10 +8,6 @@
 
 /* system headers */
 
-#ifndef AUTOCONF_INCLUDED
-#include <linux/config.h>
-#endif
-
 #include <linux/version.h>
 
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(2,5,0)) && defined(MODVERSIONS)

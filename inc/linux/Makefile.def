@@ -74,19 +74,21 @@ ifndef KERNELDIR
 KERNELDIR := /lib/modules/$(shell uname -r)/build
 endif
 
-KERNEL_VER := 2.$(shell expr `grep LINUX_VERSION_CODE $(KERNELDIR)/include/linux/version.h | cut -d\  -f3` / 256 % 256)
+KERNEL_VER := $(shell uname -r | cut -f1-2 -d.)
 
 ifeq ($(KERNEL_VER),)
 $(error Cannot find kernel version. Check $(KERNELDIR)/include/linux/version.h.)
 endif
 
+ifneq ($(KERNEL_VER), 3.2)
 ifneq ($(KERNEL_VER), 2.6)
 ifneq ($(KERNEL_VER), 2.4)
-$(error Only kernel 2.4/2.6 is supported but you use $(KERNEL_VER))
+$(error Only kernel 2.4/2.6/3.2 is supported but you use $(KERNEL_VER))
+endif
 endif
 endif
 
-ifeq ($(KERNEL_VER), 2.6)
+ifeq ($(KERNEL_VER), $(filter $(KERNEL_VER),3.2 2.6))
 
 TARGET := $(TARGETNAME).ko
 
